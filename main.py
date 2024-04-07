@@ -134,4 +134,3 @@ def adaptive_pipeline_orchestration(event, context):
         return "Successfully routed the pipeline"
     else:
         return "Failed to route the pipeline"    
-    
