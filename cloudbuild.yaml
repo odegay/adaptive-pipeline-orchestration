@@ -1,0 +1,9 @@
+steps:
+- name: 'python'
+  entrypoint: 'pip'
+  args: ['install', '-r', 'requirements.txt']
+  
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['functions', 'deploy', 'adaptive_pipeline_orchestration', 
+         '--runtime', 'python39',
+         '--trigger-topic','adaptive-pipeline-workflow-topic'] 
