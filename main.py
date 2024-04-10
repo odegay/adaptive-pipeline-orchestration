@@ -1,6 +1,6 @@
 import base64
 import json
-from service_functions import publish_to_pubsub
+from adpipsvcfuncs import publish_to_pubsub
 from adpipwfwconst import MSG_TYPE
 from adpipwfwconst import PIPELINE_TOPICS as TOPICS
 from next_pipeline_cycle import next_pipeline_cycle
