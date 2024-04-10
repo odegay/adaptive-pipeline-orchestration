@@ -1,2 +1,2 @@
 google-cloud-pubsub
-adpipwfwconst
+adpipwfwconst==0.1.2

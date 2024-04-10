@@ -1,9 +1,9 @@
 import json
-import logger as log
 from google.cloud import pubsub_v1
 import requests
 
-logger = log.get_logger(__name__)
+import logging
+logger = logging.get_logger(__name__)
 
 def publish_to_pubsub(topic_name : str, data : dict) -> bool:
     """Publishes a message to a Google Cloud Pub/Sub topic."""

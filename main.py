@@ -1,13 +1,11 @@
 import base64
 import json
-from google.cloud import pubsub_v1
-import logger as log
 from service_functions import publish_to_pubsub
 from adpipwfwconst import MSG_TYPE
 from adpipwfwconst import PIPELINE_TOPICS as TOPICS
 from next_pipeline_cycle import next_pipeline_cycle
-
-logger = log.get_logger(__name__)
+import logging
+logger = logging.get_logger(__name__)
 
 # Function to handle new model configuration
 def model_generation(event: dict, context: dict) -> bool:

@@ -1,4 +1,3 @@
-import logger as log
 import random
 import uuid
 import json
@@ -6,8 +5,8 @@ import base64
 from adpipwfwconst import MSG_TYPE
 from adpipwfwconst import PIPELINE_TOPICS as TOPICS
 from service_functions import publish_to_pubsub
-
-logger = log.get_logger(__name__)
+import logging
+logger = logging.get_logger(__name__)
 
 def continue_pipeline_required(pipeline_id) -> bool:    
     #TODO: Implement the logic to decide if the pipeline should continue with the next cycle
