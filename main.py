@@ -1,62 +1,13 @@
 import base64
-import os
 import json
 from google.cloud import pubsub_v1
-import requests
-import logging
-import uuid
+import logger as log
+from service_functions import publish_to_pubsub
 from adpipwfwconst import MSG_TYPE
 from adpipwfwconst import PIPELINE_TOPICS as TOPICS
+from next_pipeline_cycle import next_pipeline_cycle
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
-
-def publish_to_pubsub(topic_name : str, data : dict) -> bool:
-    """Publishes a message to a Google Cloud Pub/Sub topic."""
-    # Fetch Project ID from Metadata Server
-    metadata_server_url = "http://metadata/computeMetadata/v1/project/project-id"
-    headers = {"Metadata-Flavor": "Google"}
-    project_id = requests.get(metadata_server_url, headers=headers).text
-    # Publish the message to Pub/Sub
-    publisher = pubsub_v1.PublisherClient()
-    topic_path = publisher.topic_path(project_id, topic_name)
-    data = json.dumps(data).encode("utf-8")
-    future = publisher.publish(topic_path, data)
-    logger.debug(f"Publised message to topic: {topic_name} and project_id: {project_id}")
-    logger.debug(f"Published message result: {future.result()}")
-    return True
-
-def next_pipeline_cycle(event: dict, context: dict) -> bool:
-    #TODO: Implement the logic to decide if the pipeline should continue with the next cycle
-    pipeline_id = ""
-    if 'data' in event:
-        pubsub_message = base64.b64decode(event['data']).decode('utf-8')
-        pubsub_message = json.loads(pubsub_message)
-        if pubsub_message['MSG_TYPE'] == MSG_TYPE.ADAPTIVE_PIPELINE_START:
-            logger.debug("Starting a new adaptive pipeline")
-            #TODO: Implement the logic to create and save a new pipeline data
-            pipeline_id = str(uuid.uuid4())
-        else:
-            if 'pipeline_id' in pubsub_message:
-                pipeline_id = pubsub_message['pipeline_id']
-            else:
-                logger.error("Pipeline ID is missing in the message")
-                return False   
-    else:
-        logger.error("Data is missing in the event")
-        return False
-    
-    logger.debug(f"Placeholder to decide if the pipeline with ID: {pipeline_id} should continue with the next cycle")    
-    #TODO: Implement the logic to decide if the pipeline should continue with the next cycle
-
-    message_data = {
-        "pipeline_id": pipeline_id,
-        "MSG_TYPE": MSG_TYPE.START_MODEL_CONFIGURATION        
-    }        
-
-    publish_to_pubsub(TOPICS.CONFIG_TOPIC.value, message_data)
-    logger.debug("Decision made to continue with the next cycle for the pipeline with ID: {pipeline_id}")
-    return True
+logger = log.get_logger(__name__)
 
 # Function to handle new model configuration
 def model_generation(event: dict, context: dict) -> bool:
@@ -73,14 +24,14 @@ def model_generation(event: dict, context: dict) -> bool:
     else:
         logger.error("Data is missing in the event")
         return False
-
     message_data = {
         "pipeline_id": pipeline_id,
         "MSG_TYPE": MSG_TYPE.REQUEST_LLM_NEW_MODEL_CONFIGURATION        
     } 
-    publish_to_pubsub(TOPICS.CONFIG_TOPIC.value, message_data)
-    logger.debug("Placeholder for new model generation")
-    return True
+    if not publish_to_pubsub(TOPICS.CONFIG_TOPIC.value, message_data):
+        return False
+    else:            
+        return True
 
 # Function to handle pipeline step failure
 def pipeline_step_failure(event: dict, context: dict) -> bool:
