@@ -3,7 +3,7 @@ from google.cloud import pubsub_v1
 import requests
 
 import logging
-logger = logging.get_logger(__name__)
+logger = logging.getLogger(__name__)
 
 def publish_to_pubsub(topic_name : str, data : dict) -> bool:
     """Publishes a message to a Google Cloud Pub/Sub topic."""
