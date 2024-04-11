@@ -7,7 +7,7 @@ from adpipwfwconst import PIPELINE_TOPICS as TOPICS
 from adpipsvcfuncs import publish_to_pubsub
 import logging
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
+logger.setLevel(logging.INFO)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 def continue_pipeline_required(pipeline_id) -> bool:    
     #TODO: Implement the logic to decide if the pipeline should continue with the next cycle
@@ -24,7 +24,7 @@ def complete_pipeline(pipeline_id) -> bool:
     
     if not publish_to_pubsub(TOPICS.WORKFLOW_TOPIC.value, message_data):
         return False
-    logger.debug(f"Completed the pipeline with ID: {pipeline_id}")
+    logger.info(f"Completed the pipeline with ID: {pipeline_id}")
     return True    
 
 def create_and_send_message_start_config_msg(pipeline_id: str, topics_value: str) -> bool:
@@ -35,7 +35,7 @@ def create_and_send_message_start_config_msg(pipeline_id: str, topics_value: str
     if not publish_to_pubsub(topics_value, message_data):
         logger.error(f"Failed to publish message to topic: {topics_value}")
         return False
-    logger.debug(f"Published message to topic: {topics_value} for pipeline ID: {pipeline_id}")
+    logger.info(f"Published message to topic: {topics_value} for pipeline ID: {pipeline_id}")
     return True
 
 def next_pipeline_cycle(event: dict, context: dict) -> bool:
@@ -45,7 +45,7 @@ def next_pipeline_cycle(event: dict, context: dict) -> bool:
         msg_type = pubsub_message.get("MSG_TYPE")
 
         if msg_type == MSG_TYPE.ADAPTIVE_PIPELINE_START:
-            logger.debug("Starting a new adaptive pipeline")
+            logger.info("Starting a new adaptive pipeline")
             pipeline_id = str(uuid.uuid4())
             if not create_and_send_message_start_config_msg(pipeline_id, TOPICS.CONFIG_TOPIC.value):
                 return False
@@ -54,13 +54,13 @@ def next_pipeline_cycle(event: dict, context: dict) -> bool:
         elif "pipeline_id" in pubsub_message:
             pipeline_id = pubsub_message['pipeline_id']
             if continue_pipeline_required(pipeline_id):
-                logger.debug(f"Continuing the pipeline with ID: {pipeline_id}")
+                logger.info(f"Continuing the pipeline with ID: {pipeline_id}")
                 if not create_and_send_message_start_config_msg(pipeline_id, TOPICS.CONFIG_TOPIC.value):
                     return False
                 else:
                     return True
             else:
-                logger.debug(f"Pipeline with ID: {pipeline_id} has completed all the cycles")
+                logger.info(f"Pipeline with ID: {pipeline_id} has completed all the cycles")
                 return False
         else:
             logger.error("Pipeline ID is missing in the message")

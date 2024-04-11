@@ -6,7 +6,7 @@ from adpipwfwconst import PIPELINE_TOPICS as TOPICS
 from next_pipeline_cycle import next_pipeline_cycle
 import logging
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
+logger.setLevel(logging.INFO)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 # Function to handle new model configuration
 def model_generation(event: dict, context: dict) -> bool:
@@ -35,33 +35,33 @@ def model_generation(event: dict, context: dict) -> bool:
 # Function to handle pipeline step failure
 def pipeline_step_failure(event: dict, context: dict) -> bool:
     #TODO: Implement the logic to handle pipeline step failures
-    logger.debug("Placeholder for handling pipeline step failure")
+    logger.info("Placeholder for handling pipeline step failure")
     return False
 
 # Function to prepare features
 def prepare_features(event: dict, context: dict) -> bool:
     #TODO: Implement the logic to prepare features for the pipeline
-    logger.debug("Placeholder for preparing features")
+    logger.info("Placeholder for preparing features")
     return True
 
 # Function to start prediction
 def start_prediction(event: dict, context: dict) -> bool:
     #TODO: Implement the logic to start prediction
-    logger.debug("Placeholder for starting prediction")
+    logger.info("Placeholder for starting prediction")
     return True
 
 def route_pipeline(event: dict, context: dict) -> bool:
     # Decode the PubSub message    
-    #logger.debug(f"Decoded Pub/Sub message: {pubsub_message}")  
+    #logger.info(f"Decoded Pub/Sub message: {pubsub_message}")  
     if 'data' in event:
         pubsub_message = base64.b64decode(event['data']).decode('utf-8')
         pubsub_message = json.loads(pubsub_message)
         # Log the entire message and its type
-        logger.debug(f"Decoded Pub/Sub message: {pubsub_message}")
-        logger.debug(f"Type of MSG_TYPE in message: {type(pubsub_message['MSG_TYPE'])}")
+        logger.info(f"Decoded Pub/Sub message: {pubsub_message}")
+        logger.info(f"Type of MSG_TYPE in message: {type(pubsub_message['MSG_TYPE'])}")
 
         if 'MSG_TYPE' in pubsub_message:
-            logger.debug(f"Type of MSG_TYPE.ADAPTIVE_PIPELINE_START: {type(MSG_TYPE.ADAPTIVE_PIPELINE_START)}")
+            logger.info(f"Type of MSG_TYPE.ADAPTIVE_PIPELINE_START: {type(MSG_TYPE.ADAPTIVE_PIPELINE_START)}")
 
             if ((pubsub_message['MSG_TYPE'] == MSG_TYPE.ADAPTIVE_PIPELINE_START) or (pubsub_message['MSG_TYPE'] == MSG_TYPE.PREDICTION_SUCCESS)):
                 next_pipeline_cycle(event, context)
