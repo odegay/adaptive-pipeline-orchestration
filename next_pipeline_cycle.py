@@ -7,6 +7,7 @@ from adpipwfwconst import PIPELINE_TOPICS as TOPICS
 from service_functions import publish_to_pubsub
 import logging
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 def continue_pipeline_required(pipeline_id) -> bool:    
     #TODO: Implement the logic to decide if the pipeline should continue with the next cycle

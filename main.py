@@ -6,6 +6,7 @@ from adpipwfwconst import PIPELINE_TOPICS as TOPICS
 from next_pipeline_cycle import next_pipeline_cycle
 import logging
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 # Function to handle new model configuration
 def model_generation(event: dict, context: dict) -> bool:
