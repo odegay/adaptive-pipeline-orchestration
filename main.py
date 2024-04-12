@@ -76,7 +76,7 @@ def route_pipeline(event: dict, context: dict) -> bool:
         if 'MSG_TYPE' in pubsub_message:
             logger.debug(f"Type of MSG_TYPE.ADAPTIVE_PIPELINE_START: {type(MSG_TYPE.ADAPTIVE_PIPELINE_START)}")
 
-            if ((pubsub_message['MSG_TYPE'] == MSG_TYPE.ADAPTIVE_PIPELINE_START) or (pubsub_message['MSG_TYPE'] == MSG_TYPE.PREDICTION_SUCCESS)):
+            if ((pubsub_message['MSG_TYPE'] == MSG_TYPE.ADAPTIVE_PIPELINE_START.value) or (pubsub_message['MSG_TYPE'] == MSG_TYPE.PREDICTION_SUCCESS.value)):
                 next_pipeline_cycle(event, context)
             elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_CONFIGURATION_SUCCESS:
                 model_generation(event, context)
