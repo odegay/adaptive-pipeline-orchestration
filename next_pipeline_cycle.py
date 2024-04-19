@@ -47,6 +47,7 @@ def next_pipeline_cycle(event: dict, context: dict) -> bool:
         if msg_type == MSG_TYPE.ADAPTIVE_PIPELINE_START:
             logger.debug("Starting a new adaptive pipeline")
             pipeline_id = str(uuid.uuid4())
+            #TODO Save the pipeline ID and the status in the database
             if not create_and_send_message_start_config_msg(pipeline_id, TOPICS.CONFIG_TOPIC.value):
                 return False
             else:
@@ -58,13 +59,17 @@ def next_pipeline_cycle(event: dict, context: dict) -> bool:
                 if not create_and_send_message_start_config_msg(pipeline_id, TOPICS.CONFIG_TOPIC.value):
                     return False
                 else:
+                    #TODO: Update the pipeline status to in progress in the database
                     return True
             else:
                 logger.debug(f"Pipeline with ID: {pipeline_id} has completed all the cycles")
+                #TODO: Update the pipeline status to completed in the database
                 return False
         else:
             logger.error("Pipeline ID is missing in the message")
+            #TODO: Update the pipeline status to failed in the database and move the pipeline to the failed queue
             return False   
     else:
         logger.error("Data is missing in the event")
+        #TODO: Update the pipeline status to failed in the database and move the pipeline to the failed queue
         return False 
