@@ -44,7 +44,7 @@ def next_pipeline_cycle(event: dict, context: dict) -> bool:
         pubsub_message = json.loads(pubsub_message)
         msg_type = pubsub_message.get("MSG_TYPE")
 
-        if msg_type == MSG_TYPE.ADAPTIVE_PIPELINE_START:
+        if msg_type == MSG_TYPE.ADAPTIVE_PIPELINE_START.value:
             logger.debug("Starting a new adaptive pipeline")
             pipeline_id = str(uuid.uuid4())
             #TODO Save the pipeline ID and the status in the database
