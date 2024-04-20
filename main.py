@@ -38,7 +38,7 @@ def model_generation(event: dict, context: dict) -> bool:
         return False
     message_data = {
         "pipeline_id": pipeline_id,
-        "MSG_TYPE": MSG_TYPE.REQUEST_LLM_NEW_MODEL_CONFIGURATION        
+        "MSG_TYPE": MSG_TYPE.REQUEST_LLM_NEW_MODEL_CONFIGURATION.value      
     } 
     if not publish_to_pubsub(TOPICS.CONFIG_TOPIC.value, message_data):
         return False
@@ -74,23 +74,23 @@ def route_pipeline(event: dict, context: dict) -> bool:
         logger.debug(f"Type of MSG_TYPE in message: {type(pubsub_message['MSG_TYPE'])}")
 
         if 'MSG_TYPE' in pubsub_message:
-            logger.debug(f"Type of MSG_TYPE.ADAPTIVE_PIPELINE_START: {type(MSG_TYPE.ADAPTIVE_PIPELINE_START)}")
+            logger.debug(f"Type of MSG_TYPE.ADAPTIVE_PIPELINE_START.value: {type(MSG_TYPE.ADAPTIVE_PIPELINE_START.value)}")
 
             if ((pubsub_message['MSG_TYPE'] == MSG_TYPE.ADAPTIVE_PIPELINE_START.value) or (pubsub_message['MSG_TYPE'] == MSG_TYPE.PREDICTION_SUCCESS.value)):
                 next_pipeline_cycle(event, context)
-            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_CONFIGURATION_SUCCESS:
+            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_CONFIGURATION_SUCCESS.value:
                 model_generation(event, context)
-            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_CONFIGURATION_FAILURE:
+            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_CONFIGURATION_FAILURE.value:
                 pipeline_step_failure(event, context)
-            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_GENERATION_SUCCESS:
+            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_GENERATION_SUCCESS.value:
                 prepare_features(event, context)                
-            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_GENERATION_FAILURE:
+            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.NEW_MODEL_GENERATION_FAILURE.value:
                 pipeline_step_failure(event, context)
-            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.FEATURES_PREPARATION_SUCCESS:
+            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.FEATURES_PREPARATION_SUCCESS.value:
                 start_prediction(event, context)
-            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.FEATURES_PREPARATION_FAILURE:
+            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.FEATURES_PREPARATION_FAILURE.value:
                 pipeline_step_failure(event, context)                
-            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.PREDICTION_FAILURE:
+            elif pubsub_message['MSG_TYPE'] == MSG_TYPE.PREDICTION_FAILURE.value:
                 pipeline_step_failure(event, context)
             else:
                 logger.error(f"Unknown message type: {pubsub_message['MSG_TYPE']}")
