@@ -21,6 +21,9 @@ if not root_logger.handlers:
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
 
+
+#adaptive-pipeline-persistence-layer-url
+
 # Function to handle new model configuration
 def model_generation(event: dict, context: dict) -> bool:
     #TODO: Implement the logic for new model generation
