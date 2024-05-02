@@ -1,0 +1,59 @@
+
+
+{
+    "ADAPTIVE_PIPELINE_START" : {
+        "MSG_TYPE": 0    
+    },
+    "START_MODEL_CONFIGURATION" : {
+        "MSG_TYPE": "1", 
+        "pipeline_id": "123e4567-e89b-12d3-a456-426614174000"
+    },
+    "REQUEST_LLM_NEW_MODEL_CONFIGURATION" : {
+        "MSG_TYPE": "2"    
+    },
+    "NEW_MODEL_CONFIGURATION_SUCCESS" : {
+        "MSG_TYPE": "3"    
+    },
+    "NEW_MODEL_CONFIGURATION_FAILURE" : {
+        "MSG_TYPE": "4"    
+    },
+    "GENERATE_NEW_MODEL" : {
+        "MSG_TYPE": "5"    
+    },
+    "NEW_MODEL_GENERATION_SUCCESS" : {
+        "MSG_TYPE": "6"    
+    },
+    "NEW_MODEL_GENERATION_FAILURE" : {
+        "MSG_TYPE": "7"    
+    },
+    "PREPARE_FEATURES" : {
+        "MSG_TYPE": "8"    
+    },
+    "FEATURES_PREPARATION_SUCCESS" : {
+        "MSG_TYPE": "9"    
+    },
+    "FEATURES_PREPARATION_FAILURE" : {
+        "MSG_TYPE": "10"    
+    },
+    "START_PREDICTION" : {
+        "MSG_TYPE": "11"    
+    },
+    "PREDICTION_SUCCESS" : {
+        "MSG_TYPE": "12"    
+    },
+    "PREDICTION_FAILURE" : {
+        "MSG_TYPE": "13"    
+    },
+    "MODEL_FITS_KPIS" : {
+        "MSG_TYPE": "14"    
+    },
+    "MODEL_MISSING_KPIS" : {
+        "MSG_TYPE": "15"    
+    },    
+    "ADAPTIVE_PIPELINE_END" : {
+        "MSG_TYPE": "16"    
+    },
+    "ADAPTIVE_PIPELINE_ERROR" : {
+        "MSG_TYPE": "17"    
+    }    
+}

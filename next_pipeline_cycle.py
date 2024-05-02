@@ -34,8 +34,11 @@ def create_new_pipeline() -> str:
     if not api_url:
         logger.error("Failed to fetch the API URL")
         return None
+    data = {
+        "status": MSG_TYPE.ADAPTIVE_PIPELINE_START.value
+    }
     try:
-        response = requests.post(f"{api_url}/create")
+        response = requests.post(f"{api_url}/create", json=data)
         if response.status_code == 200:
             pipeline_id = response.json().get("id")
             logger.debug(f"Created a new pipeline with ID: {pipeline_id}")
