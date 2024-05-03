@@ -23,7 +23,7 @@ def complete_pipeline(pipeline_id) -> bool:
     #TODO: Update the pipeline status to completed
     message_data = {
         "pipeline_id": pipeline_id,
-        "MSG_TYPE": MSG_TYPE.ADAPTIVE_PIPELINE_END.value       
+        "status": MSG_TYPE.ADAPTIVE_PIPELINE_END.value       
     }        
     
     if not publish_to_pubsub(TOPICS.WORKFLOW_TOPIC.value, message_data):
@@ -55,8 +55,9 @@ def create_new_pipeline() -> str:
         return None
 
 def send_message_start_config_msg(pipeline_id: str, topics_value: str) -> bool:
-    message_data = {        
-        "MSG_TYPE": MSG_TYPE.START_MODEL_CONFIGURATION.value
+    message_data = {   
+        "pipeline_id": pipeline_id,     
+        "status": MSG_TYPE.START_MODEL_CONFIGURATION.value
     }
 
     if not api_url:
@@ -85,7 +86,7 @@ def next_pipeline_cycle(event: dict, context: dict) -> bool:
     if 'data' in event:
         pubsub_message = base64.b64decode(event['data']).decode('utf-8')
         pubsub_message = json.loads(pubsub_message)
-        msg_type = pubsub_message.get("MSG_TYPE")
+        msg_type = pubsub_message.get("status")
 
         if msg_type == MSG_TYPE.ADAPTIVE_PIPELINE_START.value:
             logger.debug("Starting a new adaptive pipeline")            
