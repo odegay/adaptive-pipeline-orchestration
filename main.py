@@ -1,6 +1,6 @@
 import base64
 import json
-from adpipsvcfuncs import publish_to_pubsub
+from adpipsvcfuncs import publish_to_pubsub, fetch_gcp_secret
 from adpipwfwconst import MSG_TYPE
 from adpipwfwconst import PIPELINE_TOPICS as TOPICS
 from next_pipeline_cycle import next_pipeline_cycle
@@ -21,6 +21,8 @@ if not root_logger.handlers:
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
 
+# Fetching API key from GCP secret manager
+api_key = fetch_gcp_secret('adaptive-pipeline-API-token')
 
 #adaptive-pipeline-persistence-layer-url
 

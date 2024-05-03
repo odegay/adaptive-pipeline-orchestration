@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
 
 api_url = fetch_gcp_secret("adaptive-pipeline-persistence-layer-url")
+api_key = fetch_gcp_secret("adaptive-pipeline-API-token")
 
 def continue_pipeline_required(pipeline_id) -> bool:    
     #TODO: Implement the logic to decide if the pipeline should continue with the next cycle
@@ -37,8 +38,11 @@ def create_new_pipeline() -> str:
     data = {
         "status": MSG_TYPE.ADAPTIVE_PIPELINE_START.value
     }
+    headers = {
+        "Authorization": api_key
+    }
     try:
-        response = requests.post(f"{api_url}/create", json=data)
+        response = requests.post(f"{api_url}/create", json=data, headers=headers)
         if response.status_code == 200:
             pipeline_id = response.json().get("id")
             logger.debug(f"Created a new pipeline with ID: {pipeline_id}")
