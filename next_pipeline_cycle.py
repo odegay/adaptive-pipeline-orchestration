@@ -55,10 +55,26 @@ def create_new_pipeline() -> str:
         return None
 
 def send_message_start_config_msg(pipeline_id: str, topics_value: str) -> bool:
-    message_data = {
-        "pipeline_id": pipeline_id,
+    message_data = {        
         "MSG_TYPE": MSG_TYPE.START_MODEL_CONFIGURATION.value
     }
+
+    if not api_url:
+        logger.error("Failed to fetch the API URL")
+        return None
+    headers = {
+        "Authorization": api_key
+    }
+    try:
+        response = requests.post(f"{api_url}/update/{pipeline_id}", json=message_data, headers=headers)
+        if response.status_code != 200:
+            logger.error(f"Failed to update the pipeline status. Response: {response.text}")
+            return False
+    except Exception as e:
+        logger.error(f"Error: {str(e)}")
+        return False
+
+
     if not publish_to_pubsub(topics_value, message_data):
         logger.error(f"Failed to publish message to topic: {topics_value}")
         return False
