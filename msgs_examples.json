@@ -1,59 +1,58 @@
 
-
 {
     "ADAPTIVE_PIPELINE_START" : {
-        "MSG_TYPE": 0    
+        "status": 0    
     },
     "START_MODEL_CONFIGURATION" : {
-        "MSG_TYPE": "1", 
+        "status": "1", 
         "pipeline_id": "123e4567-e89b-12d3-a456-426614174000"
     },
     "REQUEST_LLM_NEW_MODEL_CONFIGURATION" : {
-        "MSG_TYPE": "2"    
+        "status": "2"    
     },
     "NEW_MODEL_CONFIGURATION_SUCCESS" : {
-        "MSG_TYPE": "3"    
+        "status": "3"    
     },
     "NEW_MODEL_CONFIGURATION_FAILURE" : {
-        "MSG_TYPE": "4"    
+        "status": "4"    
     },
     "GENERATE_NEW_MODEL" : {
-        "MSG_TYPE": "5"    
+        "status": "5"    
     },
     "NEW_MODEL_GENERATION_SUCCESS" : {
-        "MSG_TYPE": "6"    
+        "status": "6"    
     },
     "NEW_MODEL_GENERATION_FAILURE" : {
-        "MSG_TYPE": "7"    
+        "status": "7"    
     },
     "PREPARE_FEATURES" : {
-        "MSG_TYPE": "8"    
+        "status": "8"    
     },
     "FEATURES_PREPARATION_SUCCESS" : {
-        "MSG_TYPE": "9"    
+        "status": "9"    
     },
     "FEATURES_PREPARATION_FAILURE" : {
-        "MSG_TYPE": "10"    
+        "status": "10"    
     },
     "START_PREDICTION" : {
-        "MSG_TYPE": "11"    
+        "status": "11"    
     },
     "PREDICTION_SUCCESS" : {
-        "MSG_TYPE": "12"    
+        "status": "12"    
     },
     "PREDICTION_FAILURE" : {
-        "MSG_TYPE": "13"    
+        "status": "13"    
     },
     "MODEL_FITS_KPIS" : {
-        "MSG_TYPE": "14"    
+        "status": "14"    
     },
     "MODEL_MISSING_KPIS" : {
-        "MSG_TYPE": "15"    
+        "status": "15"    
     },    
     "ADAPTIVE_PIPELINE_END" : {
-        "MSG_TYPE": "16"    
+        "status": "16"    
     },
     "ADAPTIVE_PIPELINE_ERROR" : {
-        "MSG_TYPE": "17"    
+        "status": "17"    
     }    
 }
