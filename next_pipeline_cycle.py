@@ -66,7 +66,7 @@ def send_message_start_config_msg(pipeline_id: str, topics_value: str) -> bool:
         "Authorization": api_key
     }
     try:
-        response = requests.post(f"{api_url}/update/{pipeline_id}", json=message_data, headers=headers)
+        response = requests.put(f"{api_url}/update/{pipeline_id}", json=message_data, headers=headers)
         if response.status_code != 200:
             logger.error(f"Failed to update the pipeline status. Response: {response.text}")
             return False
