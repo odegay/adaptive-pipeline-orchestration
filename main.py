@@ -1,8 +1,9 @@
 import base64
 import json
-from adpipsvcfuncs import publish_to_pubsub, fetch_gcp_secret
+from adpipsvcfuncs import publish_to_pubsub
 from adpipwfwconst import MSG_TYPE
 from adpipwfwconst import PIPELINE_TOPICS as TOPICS
+#from adpipwfwconst import MODEL_TRAINING_JOB_IMAGE_NAME
 from next_pipeline_cycle import next_pipeline_cycle
 import logging
 
@@ -21,26 +22,13 @@ if not root_logger.handlers:
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)  # Capture DEBUG, INFO, WARNING, ERROR, CRITICAL
 
-# Fetching API key from GCP secret manager
-api_key = fetch_gcp_secret('adaptive-pipeline-API-token')
-
-#adaptive-pipeline-persistence-layer-url
-
 # Function to handle new model configuration
 def model_generation(event: dict, context: dict) -> bool:
     #TODO: Implement the logic for new model generation
-    pipeline_id = ""
-    if 'data' in event:
-        pubsub_message = base64.b64decode(event['data']).decode('utf-8')
-        pubsub_message = json.loads(pubsub_message)
-        if 'pipeline_id' in pubsub_message:
-            pipeline_id = pubsub_message['pipeline_id']
-        else:
-            logger.error("Pipeline ID is missing in the message")
-            return False
-    else:
-        logger.error("Data is missing in the event")
+    pipeline_id = get_pipeline_id(event)
+    if pipeline_id == "":
         return False
+        
     message_data = {
         "pipeline_id": pipeline_id,
         "status": MSG_TYPE.REQUEST_LLM_NEW_MODEL_CONFIGURATION.value      
@@ -49,7 +37,7 @@ def model_generation(event: dict, context: dict) -> bool:
         return False
     else:            
         return True
-
+    
 # Function to handle pipeline step failure
 def pipeline_step_failure(event: dict, context: dict) -> bool:
     #TODO: Implement the logic to handle pipeline step failures
@@ -84,7 +72,8 @@ def route_pipeline(event: dict, context: dict) -> bool:
             if ((pubsub_message['status'] == MSG_TYPE.ADAPTIVE_PIPELINE_START.value) or (pubsub_message['status'] == MSG_TYPE.PREDICTION_SUCCESS.value)):
                 next_pipeline_cycle(event, context)
             elif pubsub_message['status'] == MSG_TYPE.NEW_MODEL_CONFIGURATION_SUCCESS.value:
-                model_generation(event, context)
+                #model_generation(event, context)
+                logger.debug(f"Skipping message type: {pubsub_message['status']} as it will be handled by the ADAPTIVE-PIPELINE-MODEL function")
             elif pubsub_message['status'] == MSG_TYPE.NEW_MODEL_CONFIGURATION_FAILURE.value:
                 pipeline_step_failure(event, context)
             elif pubsub_message['status'] == MSG_TYPE.NEW_MODEL_GENERATION_SUCCESS.value:

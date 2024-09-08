@@ -75,7 +75,6 @@ def send_message_start_config_msg(pipeline_id: str, topics_value: str) -> bool:
         logger.error(f"Error: {str(e)}")
         return False
 
-
     if not publish_to_pubsub(topics_value, message_data):
         logger.error(f"Failed to publish message to topic: {topics_value}")
         return False
