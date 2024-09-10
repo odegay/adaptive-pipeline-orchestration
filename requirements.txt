@@ -1,5 +1,5 @@
 google-cloud-pubsub
 google-cloud-secret-manager
 adpipwfwconst==0.1.3
-adpipsvcfuncs==0.1.12
+adpipsvcfuncs==0.1.13
 kubernetes==29.0.0

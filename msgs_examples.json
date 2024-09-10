@@ -4,55 +4,55 @@
         "status": 0    
     },
     "START_MODEL_CONFIGURATION" : {
-        "status": "1", 
+        "status": 1, 
         "pipeline_id": "123e4567-e89b-12d3-a456-426614174000"
     },
     "REQUEST_LLM_NEW_MODEL_CONFIGURATION" : {
-        "status": "2"    
+        "status": 2    
     },
     "NEW_MODEL_CONFIGURATION_SUCCESS" : {
-        "status": "3"    
+        "status": 3    
     },
     "NEW_MODEL_CONFIGURATION_FAILURE" : {
-        "status": "4"    
+        "status": 4    
     },
     "GENERATE_NEW_MODEL" : {
-        "status": "5"    
+        "status": 5    
     },
     "NEW_MODEL_GENERATION_SUCCESS" : {
-        "status": "6"    
+        "status": 6    
     },
     "NEW_MODEL_GENERATION_FAILURE" : {
-        "status": "7"    
+        "status": 7    
     },
     "PREPARE_FEATURES" : {
-        "status": "8"    
+        "status": 8    
     },
     "FEATURES_PREPARATION_SUCCESS" : {
-        "status": "9"    
+        "status": 9    
     },
     "FEATURES_PREPARATION_FAILURE" : {
-        "status": "10"    
+        "status": 10    
     },
     "START_PREDICTION" : {
-        "status": "11"    
+        "status": 11    
     },
     "PREDICTION_SUCCESS" : {
-        "status": "12"    
+        "status": 12    
     },
     "PREDICTION_FAILURE" : {
-        "status": "13"    
+        "status": 13    
     },
     "MODEL_FITS_KPIS" : {
-        "status": "14"    
+        "status": 14    
     },
     "MODEL_MISSING_KPIS" : {
-        "status": "15"    
+        "status": 15    
     },    
     "ADAPTIVE_PIPELINE_END" : {
-        "status": "16"    
+        "status": 16    
     },
     "ADAPTIVE_PIPELINE_ERROR" : {
-        "status": "17"    
+        "status": 17    
     }    
 }
