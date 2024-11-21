@@ -17,7 +17,8 @@
         "status": 4    
     },
     "GENERATE_NEW_MODEL" : {
-        "status": 5    
+        "status": 5,
+        "pipeline_id": "fEfinMHrYfgd1WPPR4ac"    
     },
     "NEW_MODEL_GENERATION_SUCCESS" : {
         "status": 6    
@@ -38,7 +39,8 @@
         "status": 11    
     },
     "PREDICTION_SUCCESS" : {
-        "status": 12    
+        "status": 12,
+        "pipeline_id": "fEfinMHrYfgd1WPPR4ac"    
     },
     "PREDICTION_FAILURE" : {
         "status": 13    

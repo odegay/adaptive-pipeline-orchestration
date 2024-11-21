@@ -4,7 +4,7 @@ import base64
 import requests
 from adpipwfwconst import MSG_TYPE
 from adpipwfwconst import PIPELINE_TOPICS as TOPICS
-from adpipsvcfuncs import publish_to_pubsub, fetch_gcp_secret
+from adpipsvcfuncs import publish_to_pubsub, fetch_gcp_secret, load_current_pipeline_data
 import logging
 
 logger = logging.getLogger(__name__)
@@ -15,8 +15,17 @@ api_key = fetch_gcp_secret("adaptive-pipeline-API-token")
 
 def continue_pipeline_required(pipeline_id) -> bool:    
     #TODO: Implement the logic to decide if the pipeline should continue with the next cycle
-    #Randomly returning True or False based on the random generator
-    return bool(random.getrandbits(1))    
+    # ADAPTIVE_PIPELINE_END
+    
+    pipeline_data = load_current_pipeline_data(pipeline_id)
+    if not pipeline_data:
+        logger.error(f"Failed to fetch the pipeline data for pipeline ID: {pipeline_id}")
+        return False
+    if pipeline_data.get("status") == MSG_TYPE.ADAPTIVE_PIPELINE_END.value:
+        logger.debug(f"Pipeline with ID: {pipeline_id} has completed all the cycles")
+        return False
+    return True
+    
 
 # Function to complete the pipeline
 def complete_pipeline(pipeline_id) -> bool:
